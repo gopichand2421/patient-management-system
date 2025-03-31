@@ -1,0 +1,5 @@
+/patient-management-ui/src/main/frontend/patient-ui/node_modules/
+/patient-management-ui/src/main/frontend/patient-ui/package-lock.json
+/.idea/
+/patient-management-ui/.gradle/
+/patient-management-ui/build/

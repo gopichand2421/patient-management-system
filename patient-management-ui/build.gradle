@@ -1,0 +1,64 @@
+plugins {
+    id 'java'
+    id("com.github.node-gradle.node") version "7.1.0"
+    id 'org.springframework.boot' version '3.3.10'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+node {
+    version = '23.6.0'
+    npmVersion = '10.9.2'
+    download = true
+}
+
+group = 'com.patientmanagement'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+//    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+task installFrontend(type: NpmTask){
+    description = 'Install frontend dependencies'
+    workingDir = file("${project.projectDir}/src/main/frontend/patient-ui")
+    group = 'build setup'
+    args = ['install']
+}
+
+task buildFrontend(type: NpmTask){
+    description = 'Build frontend project'
+    group = 'build'
+    workingDir = file("${project.projectDir}/src/main/frontend/patient-ui")
+    dependsOn installFrontend
+    args = ['run', 'build']
+}
+
+task startFrontend(type: NpmTask) {
+    description = 'Start frontend development server'
+    group = 'build'
+    dependsOn installFrontend
+    args = ['start']
+}
+
+test {
+    useJUnitPlatform()
+}
+
+build.dependsOn buildFrontend
