@@ -3,3 +3,4 @@
 /.idea/
 /patient-management-ui/.gradle/
 /patient-management-ui/build/
+/patient-management-ui/src/main/resources/static/
